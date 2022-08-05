@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Type-C, yanpengt06@gmail.com"><title>A Survey on Sentiment Analysis · 童彦澎</title><meta name="description" content="情感分析综述：方法、应用与未来
+
+情感分析的尺度
+情感分析(Sentiment Analysis, SA)，在NLP领域特指文本情感分析，即分析文本所蕴含说话人想要表达的情感。尺度由小至大依次是方面（Aspect，翻译可能不当，下文仍采用英文）级、短语级、句子级以及文档级的情感分析，以下分类阐述。
+"><meta name="keywords" content="Blog,博客,Hexo"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/insight.css"><link rel="stylesheet" href="/css/search.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 6.2.0"></head><body><div class="page-top animated fadeInDown"><div class="nav"><li> <a href="/">Home</a></li><li> <a href="/archives">Archives</a></li><li> <a href="/tags">Tags</a></li><li> <a href="/about">About</a></li><li> <a href="He-doesn't-know-where-to-link-for-now">Links</a></li></div><div class="information"><div class="nav_right_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li><li><a class="fa fa-search" onclick="openWindow();"></a></li></div><div class="avatar"><img src="/images/avatar.jpg"></div></div></div><div class="sidebar animated fadeInDown"><div class="sidebar-top"><div class="logo-title"><div class="title"><img src="/images/avatar.jpg" style="width:200px;" alt="favicon"><h3 title=""><a href="/">童彦澎</a></h3><div class="description"><p>A NLP Beginner, Research Tyro</p></div></div><ul class="social-links"><li><a href="yanpengt06"><i class="fa fa-github"></i></a></li><li><a href="mailto:yanpengt06@gmail.com"><i class="fa fa-envelope"></i></a></li><li><a target="_blank" rel="noopener" href="http://sighttp.qq.com/authd?IDKEY=1308091501"><i class="fa fa-qq"></i></a></li><li><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/typ-24-69"><i class="fa fa-mortar-board"></i></a></li></ul></div><details class="ltr" open><summary>Menu</summary><div class="tocmenu"><p><ol class="toclist"><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90%E7%9A%84%E5%B0%BA%E5%BA%A6"><span class="toclist-number">1.</span> <span class="toclist-text">情感分析的尺度</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E6%96%87%E6%A1%A3%E7%BA%A7SA"><span class="toclist-number">1.1.</span> <span class="toclist-text">文档级SA</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E5%8F%A5%E5%AD%90%E7%BA%A7SA"><span class="toclist-number">1.2.</span> <span class="toclist-text">句子级SA</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E7%9F%AD%E8%AF%AD%E7%BA%A7SA"><span class="toclist-number">1.3.</span> <span class="toclist-text">短语级SA</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E6%96%B9%E9%9D%A2-Aspect-%E7%BA%A7SA"><span class="toclist-number">1.4.</span> <span class="toclist-text">方面(Aspect)级SA</span></a></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90%E7%9A%84Workflow"><span class="toclist-number">2.</span> <span class="toclist-text">情感分析的Workflow</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E4%B8%8E%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9"><span class="toclist-number">2.1.</span> <span class="toclist-text">数据收集与特征选择</span></a></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BB%BB%E5%8A%A1%E5%8F%8A%E5%BF%85%E8%A6%81%E6%80%A7"><span class="toclist-number">3.</span> <span class="toclist-text">情感分析的主要任务及必要性</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E4%B8%BB%E8%A7%82%E5%8F%A5%E8%AF%86%E5%88%AB"><span class="toclist-number">3.1.</span> <span class="toclist-text">主观句识别</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E6%83%85%E6%84%9F%E5%88%86%E7%B1%BB"><span class="toclist-number">3.2.</span> <span class="toclist-text">情感分类</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E5%9E%83%E5%9C%BE%E8%A7%82%E7%82%B9%E6%A3%80%E6%B5%8B"><span class="toclist-number">3.3.</span> <span class="toclist-text">垃圾观点检测</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E9%9A%90%E5%BC%8F%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90"><span class="toclist-number">3.4.</span> <span class="toclist-text">隐式情感分析</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Aspect%E6%8A%BD%E5%8F%96"><span class="toclist-number">3.5.</span> <span class="toclist-text">Aspect抽取</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E5%BF%85%E8%A6%81%E6%80%A7"><span class="toclist-number">3.6.</span> <span class="toclist-text">必要性</span></a></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="toclist-number">4.</span> <span class="toclist-text">情感分析的方法概述</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%85%B8%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toclist-number">4.1.</span> <span class="toclist-text">基于词典的方法</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95"><span class="toclist-number">4.2.</span> <span class="toclist-text">机器学习方法</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E6%B7%B7%E5%90%88%E6%96%B9%E6%B3%95"><span class="toclist-number">4.3.</span> <span class="toclist-text">混合方法</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95"><span class="toclist-number">4.4.</span> <span class="toclist-text">深度学习方法</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"><span class="toclist-number">4.5.</span> <span class="toclist-text">其他方法</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#%E5%A4%9A%E6%A8%A1%E6%80%81%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90"><span class="toclist-number">4.6.</span> <span class="toclist-text">多模态情感分析</span></a></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#%E8%AF%84%E6%B5%8B%E6%8C%87%E6%A0%87"><span class="toclist-number">5.</span> <span class="toclist-text">评测指标</span></a></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#%E6%8C%91%E6%88%98%E4%B8%8E%E6%9C%AA%E6%9D%A5"><span class="toclist-number">6.</span> <span class="toclist-text">挑战与未来</span></a></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#%E5%B0%8F%E7%BB%93"><span class="toclist-number">7.</span> <span class="toclist-text">小结</span></a></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#Reference"><span class="toclist-number">8.</span> <span class="toclist-text">Reference</span></a></li></ol></p></div></details></div><div class="footer"><div class="p"> <span> 全站CC-BY-SA-3.0 </span><i class="fa fa-star"></i><span> Type-C, yanpengt06@gmail.com</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><span>Anatolo </span></div><div class="beian"></div></div></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>A Survey on Sentiment Analysis</a></h3></div><div class="post-content"><p><p style="text-align:center;font-size:32px;font-weight:bold">情感分析综述：方法、应用与未来</p>
+
+<h2 id="情感分析的尺度"><a href="#情感分析的尺度" class="headerlink" title="情感分析的尺度"></a>情感分析的尺度</h2><p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cimage-20220805165433457.png" alt="image-20220805165433457"></p>
+<p>情感分析(Sentiment Analysis, SA)，在NLP领域特指文本情感分析，即分析文本所蕴含说话人想要表达的情感。尺度由小至大依次是方面（Aspect，翻译可能不当，下文仍采用英文）级、短语级、句子级以及文档级的情感分析，以下分类阐述。</p>
+<h3 id="文档级SA"><a href="#文档级SA" class="headerlink" title="文档级SA"></a>文档级SA</h3><p>为整篇文档分配单一情感极性，在该尺度上进行分析通常较少。跨领域、跨语言是在该尺度上开展的重要任务，特定领域的SA已经取得了较高的准确率，但是特征向量也会因为领域之间的差异性而难以迁移。</p>
+<h3 id="句子级SA"><a href="#句子级SA" class="headerlink" title="句子级SA"></a>句子级SA</h3><p>可聚合从而决定文档的情感极性。在先前工作中，句子级SA被用来寻找主观句；在较为复杂的任务，例如分析有歧义的语句以及条件句，语句级别的SA也是必不可少的。</p>
+<h3 id="短语级SA"><a href="#短语级SA" class="headerlink" title="短语级SA"></a>短语级SA</h3><p>每一个短语可能包含多个aspect或者一个aspect，从而蕴含着相应的情感极性。一个比较有趣的是用来表达情感的短语，具有一定的群体特征（性别、年龄、种族），也十分值得挖掘。</p>
+<h3 id="方面-Aspect-级SA"><a href="#方面-Aspect-级SA" class="headerlink" title="方面(Aspect)级SA"></a>方面(Aspect)级SA</h3><p>类似地，Aspect的情感极性可以聚集，从而决定一个句子的情感极性。举个例子：这个相机价格有点高，但是拍出来的照片质量很好！这个主观句包含一个对象的两个方面（Aspect），一个描述方面是相机的价格，贬义；另一个是相机的拍照质量，褒义，从一些介词副词可以分析出大体上语句仍是褒义的。</p>
+<h2 id="情感分析的Workflow"><a href="#情感分析的Workflow" class="headerlink" title="情感分析的Workflow"></a>情感分析的Workflow</h2><p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cimage-20220805165257329.png" alt="image-20220805165257329"></p>
+<h3 id="数据收集与特征选择"><a href="#数据收集与特征选择" class="headerlink" title="数据收集与特征选择"></a>数据收集与特征选择</h3><ol>
+<li><strong>数据收集</strong></li>
+</ol>
+<p>​		互联网各类应用兴起后，数据可以说是海量的，来源广泛、良莠不齐。主要来源包括但不限于：网页，社交媒体，新闻及评论，电商网站，论坛，博客……</p>
+<ol start="2">
+<li><strong>特征选择</strong></li>
+</ol>
+<p>​		对于分类任务，特征的选择至关重要。一些可以参考的特征：Uni-gram, Bi-gram, …由于主观语句的特殊性，还可能包含标点信息以及Emoji表情信息，俚语信息等。</p>
+<ol start="3">
+<li><strong>特征抽取</strong></li>
+</ol>
+<p>​		与特征选择概念上边界模糊，经常抽取的特征包括不限于：词频（TF-IDF），POS（Parts of Speech, 词性）标记，否定词（否定词对于情感分析至关重要，但有时他们会在停用词表里，或者在情感词典中是中性词而不对句子极性造成影响，实则不然，要视情况处理）以及BOS(Bag of Words)特征。</p>
+<p>​		词向量也是对文本特征的一个抽取，无论是静态词向量又或是动态的词向量（自ELMO起），所蕴含的特征都较为丰富，富含语义信息。</p>
+<ol start="4">
+<li><strong>特征再选择</strong></li>
+</ol>
+<p>​		经过抽取后的特征可能是重要的、不重要的、冗余的，因此需要进一步选择（不同于2中的选择，那个更倾向于抽取）。主要方法包括基于词典与统计方法。</p>
+<p>a)  情感词典是由WordNet数据库构造而来，其中的每一项都对应一个数值，表示情感极性（例如越高越积极）。主要缺陷就是需要大量人力标注及专家知识，且人对于情感的标注具有主观性。</p>
+<p>b)  统计方法主要包括四类：</p>
+<ol>
+<li>过滤方法：不采用任何机器学习技术，仅依据统计指标，排序靠前的特征则被选择，主要指标有信息增益、互信息等，计算开销小。</li>
+<li>Wrapper（包装？）方法：基于机器学习算法的输出，计算开销较大，可以确定最优特征子集，主要基于朴素贝叶斯、SVM等机器学习算法</li>
+<li>嵌入方法：将特征选择过程包含在模型算法的执行过程之中，主要基于一些决策树算法，个人理解是通过剪枝从而完成特征选择，实现特征向量嵌入到一个低维子空间，因此叫嵌入方法？</li>
+<li>混合方法：结合上述多种方法。</li>
+</ol>
+<h2 id="情感分析的主要任务及必要性"><a href="#情感分析的主要任务及必要性" class="headerlink" title="情感分析的主要任务及必要性"></a>情感分析的主要任务及必要性</h2><p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cimage-20220805165209423.png" alt="image-20220805165209423"></p>
+<h3 id="主观句识别"><a href="#主观句识别" class="headerlink" title="主观句识别"></a>主观句识别</h3><p>常被认为是SA的第一阶段任务，从文本中抽取出带有主观情感的语句。</p>
+<h3 id="情感分类"><a href="#情感分类" class="headerlink" title="情感分类"></a>情感分类</h3><p>是情感分析的一个主要任务，包括情感极性的分类（积极，消极，中性等）以及跨语言、跨领域情感分类等子任务。词的情感具有二义性是主要困难之一，即情感也由上下文决定。”这个相机的价格好高“与”这个相机的像素好高“中的”高“具有情感的二义性。值得一提的是，情感计算(Affective Computing)与情感分析也常作为其他系统的一个子系统使用，具有重要价值。</p>
+<h3 id="垃圾观点检测"><a href="#垃圾观点检测" class="headerlink" title="垃圾观点检测"></a>垃圾观点检测</h3><p> 许多主观评论可能由机器生成，例如评论水军，这类评论被称为垃圾评论，若不剔除会对情感分析的最终结果有较大干扰。机器学习算法是主流方法，常用方法还有：引入商品打分信息，评论用户的IP、打分偏好等信息，以及一些常识知识等其他信息。</p>
+<h3 id="隐式情感分析"><a href="#隐式情感分析" class="headerlink" title="隐式情感分析"></a>隐式情感分析</h3><p>反讽、幽默常被称作隐式情感，这些模糊、隐晦的表达使得情感分析任务变得更加困难，是情感分析的一个具有挑战性的子任务。经典的方法有引入emoji，标点符号等信息，辅助判断。一个讽刺的例句：</p>
+<blockquote>
+<p>“<em><strong>Brilliant, I am fired</strong></em>!”</p>
+</blockquote>
+<p>Brilliant作为积极词汇在讽刺语句中起到了加强消极极性的作用。</p>
+<h3 id="Aspect抽取"><a href="#Aspect抽取" class="headerlink" title="Aspect抽取"></a>Aspect抽取</h3><p>方面级的SA主要由aspect抽取，极性分类，极性聚集三个步骤组成。</p>
+<p>aspect抽取的主要方法包括采用预定义集合，基于频率，基于语法，监督和无监督机器学习方法。以上方法各有优劣且互补。</p>
+<h3 id="必要性"><a href="#必要性" class="headerlink" title="必要性"></a>必要性</h3><p>情感分析因其应用广泛而具有充分的研究必要性，也是近年来的一个热门研究领域。其常见的应用有：</p>
+<ol>
+<li>商业：商品评论分析，客户满意度分析从而促进商品不断迭代。对用户的喜好建模，也可以被推荐系统所用，构建更加智能的推荐系统。涉及的技术包括但不限于细粒度情感分析，aspect-level情感分析，评论摘要的生成。</li>
+<li>政治：对于热点事件，分析国民情绪（舆情分析）对于社会治理有重要作用。</li>
+<li>医疗健康：当下，精神类问题、疾病所占的比重日益增大， 从情感、心理学层面进行预防及治疗可以有效解决精神健康问题。</li>
+</ol>
+<h2 id="情感分析的方法概述"><a href="#情感分析的方法概述" class="headerlink" title="情感分析的方法概述"></a>情感分析的方法概述</h2><h3 id="基于词典的方法"><a href="#基于词典的方法" class="headerlink" title="基于词典的方法"></a>基于词典的方法</h3><p>如前文所述，情感词典是一些token的集合，每一个token被分配了一个数值以表示情感极性。基于词典方法的优势主要有无需训练数据，被视为是一种无监督方法；缺点也因此而产生，词典的构造需要专家知识，耗费人力物力且具有高度的领域相关性，在领域之间的迁移性极差。主要有两种基于词典的方法：基于语料库的方法与基于字典方法，下面分别阐述。</p>
+<p><strong>a) 基于语料库的方法</strong></p>
+<p>该方法考虑语义及语法模式来确定一个句子的极性。该方法首先预定义一个情感词术语集合及其极性，然后在巨大语料库中根据语法pattern，来发现情感词及其对应极性。前人的一些工作包括：利用了AND这类关联词所在两侧情感极性往往相同，即”情感一致性“等。</p>
+<p>基于语料库的方法有两种类型：统计方法和语义方法</p>
+<ol>
+<li><p><strong>统计方法</strong></p>
+<p>种子观点词与上文所述的共现Pattern可以通过统计方法获得。主要思想是： 经常出现在积极语句中的词语本身有更大的可能是积极的。主要方法是：若某些token经常在相同的语境中出现，他们往往具有相同的极性。一个比较有趣的是，基于共现的统计方法可以用来检测虚假评论：评论的写作风格正常情况下应该是随机的，而不应该具有某种pattern，若不然，则很大可能是同一个用户批量撰写的虚假评论。</p>
+<p>另一个统计方法是LSA，即隐语义分析。</p>
+<ol start="2">
+<li><strong>语义方法</strong></li>
+</ol>
+</li>
+</ol>
+<p>​		通过计算词语之间的相似性完成情感极性的判定：同义词往往有相同极性，反之。</p>
+<p><strong>b) 基于字典的方法</strong></p>
+<p>基于字典的方法包含一系列人工收集的预定义观点词集合。主要假设仍是同义词往往具有相同的情感极性，依据此不断扩充这个Opinion Word 的集合。</p>
+<p>基于词典的两种方法优劣如下图所示：</p>
+<p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cimage-20220805212808168.png" alt="image-20220805212808168"></p>
+<h3 id="机器学习方法"><a href="#机器学习方法" class="headerlink" title="机器学习方法"></a>机器学习方法</h3><p>本质上也是做特征提取和表示学习，用深度学习的方法做表示学习，具有高准确率、拟合能力强等特点。采用ML方法可以更好地理解上下文信息，完成反讽识别等较为复杂的情感分类任务。下面是一些常用的机器学习方法在SA领域的应用。</p>
+<ol>
+<li><strong>Naive Bayes</strong></li>
+</ol>
+<p>概率分类器，基于贝叶斯理论，建立在特征提取之后。</p>
+<ol start="2">
+<li><strong>SVM</strong></li>
+</ol>
+<p>有监督学习分类器，习得参数只取决于支持向量，十分高效且鲁棒。</p>
+<ol start="3">
+<li><strong>Logistic Regression(LR)</strong></li>
+</ol>
+<p>运用在分类任务上的概率回归模型，是一种线性分类器。</p>
+<ol start="4">
+<li><strong>决策树与随机森林</strong></li>
+</ol>
+<p>通过样本基于一些指标（互信息等）学习最优决策属性，也十分高效。</p>
+<ol start="5">
+<li><strong>最大熵模型</strong></li>
+</ol>
+<p>条件指数分类器，是一种基于特征函数学习权重的分类器，关键在特征函数的构造，往往也需要特征工程。</p>
+<ol start="6">
+<li><strong>KNN</strong></li>
+</ol>
+<p>基于投票的分类器，在SA领域运用得不广泛，若经过恰当的训练，能取得不错的效果。</p>
+<ol start="7">
+<li><strong>半监督学习</strong></li>
+</ol>
+<p>训练集包含标注数据与部分未标注数据，在现实中较多场景符合此情景。、</p>
+<p>注：上述方法大部分均建立在 特征提取之后，好的特征对分类好坏至关重要，至于如何提取特征，如前所述或是用深度学习方法做表示学习都可能有不错的效果。</p>
+<h3 id="混合方法"><a href="#混合方法" class="headerlink" title="混合方法"></a>混合方法</h3><p>顾名思义，结合机器学习与词典的方法，取长补短，往往有不错的效果。</p>
+<h3 id="深度学习方法"><a href="#深度学习方法" class="headerlink" title="深度学习方法"></a>深度学习方法</h3><p>神经网络大火之后，用深度学习做表示学习在效率、效果上都远高于传统机器学习及基于词典的方法，各类网络架构在SA得到广泛应用，在各大任务上均有所突破，不详述，具体的一些应用如下表所示：</p>
+<p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cdl-in-sa.png" alt="dl-in-sa"></p>
+<p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cdl-in-sa-2.png" alt="dl-in-sa-2"></p>
+<hr>
+<p>8.6 TODO</p>
+<hr>
+<h3 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h3><p><strong>a) Aspect-based Sentiment Analysis(ABSA)</strong></p>
+<p><strong>b) 迁移学习</strong></p>
+<h3 id="多模态情感分析"><a href="#多模态情感分析" class="headerlink" title="多模态情感分析"></a>多模态情感分析</h3><h2 id="评测指标"><a href="#评测指标" class="headerlink" title="评测指标"></a>评测指标</h2><h2 id="挑战与未来"><a href="#挑战与未来" class="headerlink" title="挑战与未来"></a>挑战与未来</h2><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2></p><div class="tip">本文采用CC-BY-SA-3.0协议，转载请注明出处<br>Author: Type-C, yanpengt06@gmail.com</div></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2022-08-05</span><i class="fa fa-tag"></i><a class="tag" href="/tags/Sentiment-Analysis/" title="Sentiment Analysis">Sentiment Analysis </a><span class="leancloud_visitors"></span><span>About 3241 words, 10 min 48 sec  read</span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://example.com/2022/08/05/A-Survey-on-Sentiment-Analysis/,童彦澎,A Survey on Sentiment Analysis,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2022/06/20/about-course/" title="about course">Next</a></li></ul></div><script src="/js/visitors.js"></script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script>(function(window){var INSIGHT_CONFIG={TRANSLATION:{POSTS:"Posts",PAGES:"Pages",CATEGORIES:"Categories",TAGS:"Tags",UNTITLED:"(Untitled)",},CONTENT_URL:"/content.json",};window.INSIGHT_CONFIG=INSIGHT_CONFIG})(window);</script><script src="/js/insight.js" defer></script><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="Search..."><span class="searchbox-close"><a class="fa fa-times-circle" onclick="closeWindow();"></a></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"><p>Seraching...</p></div></div></div></div><script src="/js/baidu-tongji.js"></script></body></html>
