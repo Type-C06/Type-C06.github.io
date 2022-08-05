@@ -10,7 +10,7 @@
 <h3 id="句子级SA"><a href="#句子级SA" class="headerlink" title="句子级SA"></a>句子级SA</h3><p>可聚合从而决定文档的情感极性。在先前工作中，句子级SA被用来寻找主观句；在较为复杂的任务，例如分析有歧义的语句以及条件句，语句级别的SA也是必不可少的。</p>
 <h3 id="短语级SA"><a href="#短语级SA" class="headerlink" title="短语级SA"></a>短语级SA</h3><p>每一个短语可能包含多个aspect或者一个aspect，从而蕴含着相应的情感极性。一个比较有趣的是用来表达情感的短语，具有一定的群体特征（性别、年龄、种族），也十分值得挖掘。</p>
 <h3 id="方面-Aspect-级SA"><a href="#方面-Aspect-级SA" class="headerlink" title="方面(Aspect)级SA"></a>方面(Aspect)级SA</h3><p>类似地，Aspect的情感极性可以聚集，从而决定一个句子的情感极性。举个例子：这个相机价格有点高，但是拍出来的照片质量很好！这个主观句包含一个对象的两个方面（Aspect），一个描述方面是相机的价格，贬义；另一个是相机的拍照质量，褒义，从一些介词副词可以分析出大体上语句仍是褒义的。</p>
-<h2 id="情感分析的Workflow"><a href="#情感分析的Workflow" class="headerlink" title="情感分析的Workflow"></a>情感分析的Workflow</h2><p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cimage-20220805165257329.png" alt="image-20220805165257329"></p>
+<h2 id="情感分析的Workflow"><a href="#情感分析的Workflow" class="headerlink" title="情感分析的Workflow"></a>情感分析的Workflow</h2><p><img src="/images/A-Survey-on-Sentiment-Analysis.assets/image-20220805165257329.png" alt="image-20220805165257329"></p>
 <h3 id="数据收集与特征选择"><a href="#数据收集与特征选择" class="headerlink" title="数据收集与特征选择"></a>数据收集与特征选择</h3><ol>
 <li><strong>数据收集</strong></li>
 </ol>
@@ -36,7 +36,7 @@
 <li>嵌入方法：将特征选择过程包含在模型算法的执行过程之中，主要基于一些决策树算法，个人理解是通过剪枝从而完成特征选择，实现特征向量嵌入到一个低维子空间，因此叫嵌入方法？</li>
 <li>混合方法：结合上述多种方法。</li>
 </ol>
-<h2 id="情感分析的主要任务及必要性"><a href="#情感分析的主要任务及必要性" class="headerlink" title="情感分析的主要任务及必要性"></a>情感分析的主要任务及必要性</h2><p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cimage-20220805165209423.png" alt="image-20220805165209423"></p>
+<h2 id="情感分析的主要任务及必要性"><a href="#情感分析的主要任务及必要性" class="headerlink" title="情感分析的主要任务及必要性"></a>情感分析的主要任务及必要性</h2><p><img src="/images/A-Survey-on-Sentiment-Analysis.assets/image-20220805165209423.png" alt="image-20220805165209423"></p>
 <h3 id="主观句识别"><a href="#主观句识别" class="headerlink" title="主观句识别"></a>主观句识别</h3><p>常被认为是SA的第一阶段任务，从文本中抽取出带有主观情感的语句。</p>
 <h3 id="情感分类"><a href="#情感分类" class="headerlink" title="情感分类"></a>情感分类</h3><p>是情感分析的一个主要任务，包括情感极性的分类（积极，消极，中性等）以及跨语言、跨领域情感分类等子任务。词的情感具有二义性是主要困难之一，即情感也由上下文决定。”这个相机的价格好高“与”这个相机的像素好高“中的”高“具有情感的二义性。值得一提的是，情感计算(Affective Computing)与情感分析也常作为其他系统的一个子系统使用，具有重要价值。</p>
 <h3 id="垃圾观点检测"><a href="#垃圾观点检测" class="headerlink" title="垃圾观点检测"></a>垃圾观点检测</h3><p> 许多主观评论可能由机器生成，例如评论水军，这类评论被称为垃圾评论，若不剔除会对情感分析的最终结果有较大干扰。机器学习算法是主流方法，常用方法还有：引入商品打分信息，评论用户的IP、打分偏好等信息，以及一些常识知识等其他信息。</p>
@@ -70,7 +70,7 @@
 <p><strong>b) 基于字典的方法</strong></p>
 <p>基于字典的方法包含一系列人工收集的预定义观点词集合。主要假设仍是同义词往往具有相同的情感极性，依据此不断扩充这个Opinion Word 的集合。</p>
 <p>基于词典的两种方法优劣如下图所示：</p>
-<p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cimage-20220805212808168.png" alt="image-20220805212808168"></p>
+<p><img src="/images/A-Survey-on-Sentiment-Analysis.assets/image-20220805212808168.png" alt="image-20220805212808168"></p>
 <h3 id="机器学习方法"><a href="#机器学习方法" class="headerlink" title="机器学习方法"></a>机器学习方法</h3><p>本质上也是做特征提取和表示学习，用深度学习的方法做表示学习，具有高准确率、拟合能力强等特点。采用ML方法可以更好地理解上下文信息，完成反讽识别等较为复杂的情感分类任务。下面是一些常用的机器学习方法在SA领域的应用。</p>
 <ol>
 <li><strong>Naive Bayes</strong></li>
@@ -103,8 +103,8 @@
 <p>注：上述方法大部分均建立在 特征提取之后，好的特征对分类好坏至关重要，至于如何提取特征，如前所述或是用深度学习方法做表示学习都可能有不错的效果。</p>
 <h3 id="混合方法"><a href="#混合方法" class="headerlink" title="混合方法"></a>混合方法</h3><p>顾名思义，结合机器学习与词典的方法，取长补短，往往有不错的效果。</p>
 <h3 id="深度学习方法"><a href="#深度学习方法" class="headerlink" title="深度学习方法"></a>深度学习方法</h3><p>神经网络大火之后，用深度学习做表示学习在效率、效果上都远高于传统机器学习及基于词典的方法，各类网络架构在SA得到广泛应用，在各大任务上均有所突破，不详述，具体的一些应用如下表所示：</p>
-<p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cdl-in-sa.png" alt="dl-in-sa"></p>
-<p><img src="/images%5CA-Survey-on-Sentiment-Analysis.assets%5Cdl-in-sa-2.png" alt="dl-in-sa-2"></p>
+<p><img src="/images/A-Survey-on-Sentiment-Analysis.assets/dl-in-sa.png" alt="dl-in-sa"></p>
+<p><img src="/images/A-Survey-on-Sentiment-Analysis.assets/dl-in-sa-2.png" alt="dl-in-sa-2"></p>
 <hr>
 <p>8.6 TODO</p>
 <hr>
