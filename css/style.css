@@ -243,15 +243,16 @@ a:active {
   text-transform: none;
   letter-spacing: 1px;
   line-height: 1;
-  font-weight: 600;
-  color: #111;
+  font-weight: bold;
+  color: 5f 5f 5f;
   font-size: 22px;
   margin: 0;
+  text-align: center;
 }
 .post .post-title a {
   text-decoration: none;
   letter-spacing: 1px;
-  color: #5f5f5f;
+  color: #800000;
 }
 .post .post-title a:hover {
   text-decoration: underline;
@@ -270,7 +271,7 @@ a:active {
   font-weight: 600;
 }
 .post .post-content h2 {
-  color: #5f5f5f;
+  color: #800000;
   font-size: 20px;
 }
 .post .post-content h3 {
