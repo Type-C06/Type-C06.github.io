@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Type-C, yanpengt06@gmail.com"><title>A Survey on Prompts-based Learning · 童彦澎</title><meta name="description" content="the prompts-method can be structured this way:
+
+Pre-trained Models Selectiontwo main training objectives
+Autoregressive fashion	LM
+denoising objective"><meta name="keywords" content="Blog,博客,Hexo"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/insight.css"><link rel="stylesheet" href="/css/search.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 6.2.0"></head><body><div class="page-top animated fadeInDown"><div class="nav"><li> <a href="/">Home</a></li><li> <a href="/archives">Archives</a></li><li> <a href="/tags">Tags</a></li><li> <a href="/about">About</a></li><li> <a href="He-doesn't-know-where-to-link-for-now">Links</a></li></div><div class="information"><div class="nav_right_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li><li><a class="fa fa-search" onclick="openWindow();"></a></li></div><div class="avatar"><img src="/images/avatar.jpg"></div></div></div><div class="sidebar animated fadeInDown"><div class="sidebar-top"><div class="logo-title"><div class="title"><img src="/images/avatar.jpg" style="width:200px;" alt="favicon"><h3 title=""><a href="/">童彦澎</a></h3><div class="description"><p>A NLP Beginner, Research Tyro</p></div></div><ul class="social-links"><li><a target="_blank" rel="noopener" href="https://github.com/yanpengt06"><i class="fa fa-github"></i></a></li><li><a href="mailto:yanpengt06@gmail.com"><i class="fa fa-envelope"></i></a></li><li><a target="_blank" rel="noopener" href="http://sighttp.qq.com/authd?IDKEY=1308091501"><i class="fa fa-qq"></i></a></li><li><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/typ-24-69"><i class="fa fa-mortar-board"></i></a></li></ul></div><details class="ltr" open><summary>Menu</summary><div class="tocmenu"><p><ol class="toclist"><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#Pre-trained-Models-Selection"><span class="toclist-number">1.</span> <span class="toclist-text">Pre-trained Models Selection</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#two-main-training-objectives"><span class="toclist-number">1.1.</span> <span class="toclist-text">two main training objectives</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#four-paradigms-of-PTMs"><span class="toclist-number">1.2.</span> <span class="toclist-text">four paradigms of PTMs</span></a></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#Prompt-Engineering"><span class="toclist-number">2.</span> <span class="toclist-text">Prompt Engineering</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Prompt-shape"><span class="toclist-number">2.1.</span> <span class="toclist-text">Prompt shape</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Manual-Template-Engineering"><span class="toclist-number">2.2.</span> <span class="toclist-text">Manual Template Engineering</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Automated-Template-Learning"><span class="toclist-number">2.3.</span> <span class="toclist-text">Automated Template Learning</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-4"><a class="toclist-link" href="#Discrete-Prompts-hard-prompts"><span class="toclist-number">2.3.1.</span> <span class="toclist-text">Discrete Prompts(hard prompts)</span></a></li><li class="toclist-item toclist-level-4"><a class="toclist-link" href="#Continuous-Prompts-soft-prompts"><span class="toclist-number">2.3.2.</span> <span class="toclist-text">Continuous Prompts(soft prompts)</span></a></li></ol></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#Answer-Engineering"><span class="toclist-number">3.</span> <span class="toclist-text">Answer Engineering</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Answer-Shape"><span class="toclist-number">3.1.</span> <span class="toclist-text">Answer Shape</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Design-the-Map-From-Answer-Space-to-Output-Space"><span class="toclist-number">3.2.</span> <span class="toclist-text">Design the Map From Answer Space to Output Space</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-4"><a class="toclist-link" href="#Manual-Design"><span class="toclist-number">3.2.1.</span> <span class="toclist-text">Manual Design</span></a></li></ol></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Discrete-Answer-Search"><span class="toclist-number">3.3.</span> <span class="toclist-text">Discrete Answer Search</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-4"><a class="toclist-link" href="#Continuous-Answer-Search"><span class="toclist-number">3.3.1.</span> <span class="toclist-text">Continuous Answer Search</span></a></li></ol></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#Multi-Prompt-Learning"><span class="toclist-number">4.</span> <span class="toclist-text">Multi-Prompt Learning</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Prompt-Ensembling"><span class="toclist-number">4.1.</span> <span class="toclist-text">Prompt Ensembling</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Prompt-Augmentation"><span class="toclist-number">4.2.</span> <span class="toclist-text">Prompt Augmentation</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-4"><a class="toclist-link" href="#Sample-Selection"><span class="toclist-number">4.2.1.</span> <span class="toclist-text">Sample Selection</span></a></li><li class="toclist-item toclist-level-4"><a class="toclist-link" href="#Sample-Ordering"><span class="toclist-number">4.2.2.</span> <span class="toclist-text">Sample Ordering</span></a></li></ol></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Prompt-Composition"><span class="toclist-number">4.3.</span> <span class="toclist-text">Prompt Composition</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Prompt-Decomposition"><span class="toclist-number">4.4.</span> <span class="toclist-text">Prompt Decomposition</span></a></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#Training-Strategies-for-Prompting-Methods"><span class="toclist-number">5.</span> <span class="toclist-text">Training Strategies for Prompting Methods</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Training-Settings"><span class="toclist-number">5.1.</span> <span class="toclist-text">Training Settings</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Update-methods"><span class="toclist-number">5.2.</span> <span class="toclist-text">Update methods</span></a></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#Resources"><span class="toclist-number">6.</span> <span class="toclist-text">Resources</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Dataset"><span class="toclist-number">6.1.</span> <span class="toclist-text">Dataset</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Prompts"><span class="toclist-number">6.2.</span> <span class="toclist-text">Prompts</span></a></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#Prompt-relevant-Topics"><span class="toclist-number">7.</span> <span class="toclist-text">Prompt-relevant Topics</span></a><ol class="toclist-child"><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Ensemble-Learning"><span class="toclist-number">7.1.</span> <span class="toclist-text">Ensemble Learning</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Few-shot-Learning"><span class="toclist-number">7.2.</span> <span class="toclist-text">Few-shot Learning</span></a></li><li class="toclist-item toclist-level-3"><a class="toclist-link" href="#Query-Reformulation"><span class="toclist-number">7.3.</span> <span class="toclist-text">Query Reformulation</span></a></li></ol></li><li class="toclist-item toclist-level-2"><a class="toclist-link" href="#Conclude"><span class="toclist-number">8.</span> <span class="toclist-text">Conclude</span></a></li></ol></p></div></details></div><div class="footer"><div class="p"> <span> 全站CC-BY-SA-3.0 </span><i class="fa fa-star"></i><span> Type-C, yanpengt06@gmail.com</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><span>Anatolo </span></div><div class="beian"></div></div></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>A Survey on Prompts-based Learning</a></h3></div><div class="post-content"><p><p>the prompts-method can be structured this way:</p>
+<p><img src="C:\Users\13080\Desktop\hexo\source_posts\prompt.assets\image-20221128111808416.png" alt="image-20221128111808416"></p>
+<h2 id="Pre-trained-Models-Selection"><a href="#Pre-trained-Models-Selection" class="headerlink" title="Pre-trained Models Selection"></a>Pre-trained Models Selection</h2><h3 id="two-main-training-objectives"><a href="#two-main-training-objectives" class="headerlink" title="two main training objectives"></a>two main training objectives</h3><ol>
+<li>Autoregressive fashion	LM</li>
+<li>denoising objectives  –&gt;  loss over only noised parts or all parts</li>
+</ol>
+<p>different objectives suit for different downstream tasks.</p>
+<h3 id="four-paradigms-of-PTMs"><a href="#four-paradigms-of-PTMs" class="headerlink" title="four paradigms of PTMs"></a>four paradigms of PTMs</h3><p><img src="C:\Users\13080\Desktop\hexo\source_posts\prompt.assets\image-20221127125345672.png" alt="image-20221127125345672"></p>
+<p>in prefix LM, encoder and decoder share params and encoder often adpots coruptions with according objective.</p>
+<h2 id="Prompt-Engineering"><a href="#Prompt-Engineering" class="headerlink" title="Prompt Engineering"></a>Prompt Engineering</h2><h3 id="Prompt-shape"><a href="#Prompt-shape" class="headerlink" title="Prompt shape"></a>Prompt shape</h3><ul>
+<li>cloze prompts</li>
+<li>prefix prompts</li>
+</ul>
+<h3 id="Manual-Template-Engineering"><a href="#Manual-Template-Engineering" class="headerlink" title="Manual Template Engineering"></a>Manual Template Engineering</h3><ul>
+<li>LAMA dataset provides cloze templates</li>
+<li>Brown et create prefix prompts</li>
+</ul>
+<h3 id="Automated-Template-Learning"><a href="#Automated-Template-Learning" class="headerlink" title="Automated Template Learning"></a>Automated Template Learning</h3><h4 id="Discrete-Prompts-hard-prompts"><a href="#Discrete-Prompts-hard-prompts" class="headerlink" title="Discrete Prompts(hard prompts)"></a>Discrete Prompts(hard prompts)</h4><p>Some methods are as below:</p>
+<ol>
+<li>Prompt mining: scrape a large text corpus(Wiki) for strings containing [x] and [y], find middle words or dependency paths as prompts</li>
+<li>Prompt Paraphrasing: paraphrase seed prompts into a set</li>
+<li>Gradient-based Search: search over actual tokens</li>
+<li>Prompt Generation: use standard generation model</li>
+<li>Prompt Scoring: use unidirectional LM to score prompts</li>
+</ol>
+<h4 id="Continuous-Prompts-soft-prompts"><a href="#Continuous-Prompts-soft-prompts" class="headerlink" title="Continuous Prompts(soft prompts)"></a>Continuous Prompts(soft prompts)</h4><p>motivation: it’s not necessary to limit the prompt to human-interpretable language</p>
+<p>some methods are as below:</p>
+<ol>
+<li>Prefix Tuning: tune task-specific vectors </li>
+<li>Tuning initialized with discrete prompts: initialize with discrete prompts and then finue-tune the embeddings.</li>
+<li>hard-soft prompt hybrid tuning: insert tunable embeddings into a hard prompt template</li>
+</ol>
+<h2 id="Answer-Engineering"><a href="#Answer-Engineering" class="headerlink" title="Answer Engineering"></a>Answer Engineering</h2><h3 id="Answer-Shape"><a href="#Answer-Shape" class="headerlink" title="Answer Shape"></a>Answer Shape</h3><ul>
+<li>tokens</li>
+<li>span</li>
+<li>sentence</li>
+</ul>
+<h3 id="Design-the-Map-From-Answer-Space-to-Output-Space"><a href="#Design-the-Map-From-Answer-Space-to-Output-Space" class="headerlink" title="Design the Map From Answer Space to Output Space"></a>Design the Map From Answer Space to Output Space</h3><h4 id="Manual-Design"><a href="#Manual-Design" class="headerlink" title="Manual Design"></a>Manual Design</h4><ul>
+<li>Unconstrained Spaces: identity map</li>
+<li>Constrained Spaces: map between answer and the underlying class</li>
+</ul>
+<h3 id="Discrete-Answer-Search"><a href="#Discrete-Answer-Search" class="headerlink" title="Discrete Answer Search"></a>Discrete Answer Search</h3><ul>
+<li>answer paraphrasing: expand answer space to broaden its coverage</li>
+<li>label decomposition: decompose label into constituent words</li>
+</ul>
+<h4 id="Continuous-Answer-Search"><a href="#Continuous-Answer-Search" class="headerlink" title="Continuous Answer Search"></a>Continuous Answer Search</h4><p>assign a virtual token for each class label</p>
+<h2 id="Multi-Prompt-Learning"><a href="#Multi-Prompt-Learning" class="headerlink" title="Multi-Prompt Learning"></a>Multi-Prompt Learning</h2><p>use multi-prompt can improve model’s performance further</p>
+<p><img src="C:\Users\13080\Desktop\hexo\source_posts\prompt.assets\image-20221127195552188.png" alt="image-20221127195552188"></p>
+<h3 id="Prompt-Ensembling"><a href="#Prompt-Ensembling" class="headerlink" title="Prompt Ensembling"></a>Prompt Ensembling</h3><ul>
+<li>Uniform average: take the average of probabilities from different prompts</li>
+<li>Weighted average: the weights are pre-specified or optimized over training-set</li>
+<li>Majority voting: for classification tasks</li>
+<li>Knowledge Distillation</li>
+<li>Prompt ensembling for text generation</li>
+</ul>
+<h3 id="Prompt-Augmentation"><a href="#Prompt-Augmentation" class="headerlink" title="Prompt Augmentation"></a>Prompt Augmentation</h3><p>also called demo learning, which is prefixing  a few examples to the prompt. These few-shot demos take advantage of the ability of LM to learn repetitive patterns</p>
+<h4 id="Sample-Selection"><a href="#Sample-Selection" class="headerlink" title="Sample Selection"></a>Sample Selection</h4><p>different samples can result in quite different performance(ranging from SOTA to near random guess)</p>
+<ul>
+<li>Sentence Embeddings to sample examples close to the input</li>
+<li>provide positive samples and negative samples</li>
+</ul>
+<h4 id="Sample-Ordering"><a href="#Sample-Ordering" class="headerlink" title="Sample Ordering"></a>Sample Ordering</h4><p>sample order is quite important also</p>
+<ul>
+<li>entropy-based methods</li>
+<li>search and learn a separator token</li>
+<li>retrieval-based methods(add more context)</li>
+</ul>
+<h3 id="Prompt-Composition"><a href="#Prompt-Composition" class="headerlink" title="Prompt Composition"></a>Prompt Composition</h3><p>use sub-prompts to compose a prompt</p>
+<h3 id="Prompt-Decomposition"><a href="#Prompt-Decomposition" class="headerlink" title="Prompt Decomposition"></a>Prompt Decomposition</h3><p>break down the holistic prompt into sub-prompts</p>
+<h2 id="Training-Strategies-for-Prompting-Methods"><a href="#Training-Strategies-for-Prompting-Methods" class="headerlink" title="Training Strategies for Prompting Methods"></a>Training Strategies for Prompting Methods</h2><h3 id="Training-Settings"><a href="#Training-Settings" class="headerlink" title="Training Settings"></a>Training Settings</h3><ul>
+<li>zero-shot</li>
+<li>few-shot</li>
+<li>full-data</li>
+</ul>
+<h3 id="Update-methods"><a href="#Update-methods" class="headerlink" title="Update methods"></a>Update methods</h3><p>there are five tuning strategies refered</p>
+<p><img src="C:\Users\13080\Desktop\hexo\source_posts\prompt.assets\image-20221127202732340.png" alt="image-20221127202732340"></p>
+<ol>
+<li>Promptless fine-tuning</li>
+</ol>
+<blockquote>
+<p> Ad: no need for prompt design</p>
+<p> Disad: overfit and catastropic forget</p>
+</blockquote>
+<ol start="2">
+<li>tuning-free prompting</li>
+</ol>
+<p>also called in-context learning, typical examples of tuning-free prompting include LAMA and GPT-3</p>
+<blockquote>
+<p>Ad: efficiency and no catastrophic forgetting</p>
+<p>Disad: heavy engineering is needed, test-time can be long</p>
+</blockquote>
+<ol start="3">
+<li>fixed-LM Prompt Tuning</li>
+</ol>
+<p>typical examples are prefix-tuning and WARP</p>
+<blockquote>
+<p>Ad: retain knowledge in LMs, suitable for few-shot settings</p>
+<p>Disad: prompts are usually no human-interpretable</p>
+</blockquote>
+<ol start="4">
+<li>fixed-promp LM Tuning</li>
+<li>Prompt+LM Tuning</li>
+</ol>
+<blockquote>
+<p>Ad: most expressive method, can provide bootstrapping at the start of model training</p>
+<p>Disad: overfit small datasets</p>
+</blockquote>
+<h2 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h2><h3 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h3><p><img src="C:\Users\13080\Desktop\hexo\source_posts\prompt.assets\image-20221128100718619.png" alt="image-20221128100718619"></p>
+<h3 id="Prompts"><a href="#Prompts" class="headerlink" title="Prompts"></a>Prompts</h3><p>existing commonly-used prompts designed manually</p>
+<p><img src="C:\Users\13080\Desktop\hexo\source_posts\prompt.assets\image-20221128100841420.png" alt="image-20221128100841420"></p>
+<p><img src="C:\Users\13080\Desktop\hexo\source_posts\prompt.assets\image-20221128100855044.png" alt="image-20221128100855044"></p>
+<h2 id="Prompt-relevant-Topics"><a href="#Prompt-relevant-Topics" class="headerlink" title="Prompt-relevant Topics"></a>Prompt-relevant Topics</h2><h3 id="Ensemble-Learning"><a href="#Ensemble-Learning" class="headerlink" title="Ensemble Learning"></a>Ensemble Learning</h3><p>Prompt ensembling becomes another way to generate multiple results to be combined withou traning the model multiple times</p>
+<h3 id="Few-shot-Learning"><a href="#Few-shot-Learning" class="headerlink" title="Few-shot Learning"></a>Few-shot Learning</h3><p>Prompt Augmentation can be viewed as a way to few-shot learning, which elicit knowledge from LMs explicitly</p>
+<p>It’s also related to large-context learning</p>
+<h3 id="Query-Reformulation"><a href="#Query-Reformulation" class="headerlink" title="Query Reformulation"></a>Query Reformulation</h3><p>elicit more relevant texts by expanding query with related query terms</p>
+<p>LM can be viewed as a kind of query, but the knowledge bases are a black-box</p>
+<h2 id="Conclude"><a href="#Conclude" class="headerlink" title="Conclude"></a>Conclude</h2><p>The timeline of researchs on Prompt-based learning can be found <a target="_blank" rel="noopener" href="http://pretrain.nlpedia.ai/timeline.html">here</a>.</p>
+<p>This blog is a summary on <strong>Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing</strong>, a very <strong>beginner-friendly</strong> material for the start of prompts-bsaed learning.</p>
+</p><div class="tip">本文采用CC-BY-SA-3.0协议，转载请注明出处<br>Author: Type-C, yanpengt06@gmail.com</div></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2022-11-28</span><i class="fa fa-tag"></i><a class="tag" href="/tags/NLP-Pretrain-Prompt/" title="NLP, Pretrain, Prompt">NLP, Pretrain, Prompt </a><span class="leancloud_visitors"></span><span>About 651 words, 2 min 10 sec  read</span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://example.com/2022/11/28/prompt/,童彦澎,A Survey on Prompts-based Learning,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2022/08/05/A-Survey-on-Sentiment-Analysis/" title="A Survey on Sentiment Analysis">Next</a></li></ul></div><script src="/js/visitors.js"></script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script>(function(window){var INSIGHT_CONFIG={TRANSLATION:{POSTS:"Posts",PAGES:"Pages",CATEGORIES:"Categories",TAGS:"Tags",UNTITLED:"(Untitled)",},CONTENT_URL:"/content.json",};window.INSIGHT_CONFIG=INSIGHT_CONFIG})(window);</script><script src="/js/insight.js" defer></script><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="Search..."><span class="searchbox-close"><a class="fa fa-times-circle" onclick="closeWindow();"></a></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"><p>Seraching...</p></div></div></div></div><script src="/js/baidu-tongji.js"></script></body></html>
